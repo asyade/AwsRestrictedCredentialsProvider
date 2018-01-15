@@ -1,0 +1,11 @@
+{
+  "name": "moore-server",
+  "version": "0.1.0",
+  "description": "Server that provide cloud token for moore",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "acorbeau",
+  "license": "ISC"
+}
