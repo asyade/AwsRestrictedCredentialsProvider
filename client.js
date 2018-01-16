@@ -1,5 +1,5 @@
 var cache = require("./cache.js");
-var generate_credentials = require("./generator.js").generate_credentials;
+var create_user = require("./generator.js").create_user;
 
 //@TODO Important check token integrity to prevent sql injection
 function token_is_valide(token) {
@@ -27,12 +27,21 @@ exports.auth_frame = function(req, res) {
             res.setHeader('Content-Type', 'application/json'); 
             if (!creds) {
                 global.logger.info("Token dosent exist !");
-                creds = generate_credentials(body.token);
-                cache.set_creds(body.token, creds);
+                creds = create_user(body.token, (result, creds) => {
+                    if (!result) {
+                        console.error("Can't create user " + body.token);
+                        return ;
+                    }
+                    cache.set_creds(creds);
+                    res.write(JSON.stringify(creds));
+                    res.end();
+                });
             }
-            res.write(JSON.stringify(creds));
-            res.end();
-            global.logger.info("Autentification done !");
+            else {
+                res.write(JSON.stringify(creds));
+                res.end();
+                global.logger.info("Autentification done !");
+            }
         });
     });
 }

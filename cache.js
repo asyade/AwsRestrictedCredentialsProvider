@@ -12,13 +12,8 @@ exports.init = function(path, cb) {
 exports.get_creds = function(token, cb) {
     var found = false;
     global.database.all("SELECT * FROM tokens WHERE id='"+token+"'", (err, rows) => {
-        rows.forEach((row) => {
-            cb(row);
-            found = true;
-        });
+        cb((rows.length > 0) ? rows[0] : null);
     });
-    if (!found)
-        cb(null);
 }
 
 //Register new credentials into db

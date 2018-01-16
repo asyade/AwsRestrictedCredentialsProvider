@@ -15,18 +15,7 @@ var auth_frame = require('./client.js').auth_frame;
 var http =       require('http');
 
 // Init database
-cache.init("cache.sqlite3", test);//listen);
-
-function test() {
-        global.gen.create_user(process.argv[2], (success, data) => {
-        if (success) {
-            console.log(data);
-            cache.set_creds(data);
-        } else {
-            console.log("Can't create IAM token");
-        }
-    });
-}
+cache.init("cache.sqlite3", listen);
 
 // Listen httpserver and proccess auth
 function listen() {
